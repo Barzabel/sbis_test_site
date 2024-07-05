@@ -12,7 +12,7 @@ def test_sbis_first_script(browser):
         одинаковые высота (height) и ширина (width)"""
     main_page = SearchHelper(browser)
     main_page.go_to_site()
-    main_page.click_on_the_contacts_button()
+    main_page.click_on_the_link("Контакты")
     main_page.click_on_the_label_button()
     assert main_page.check_string('Сила в людях')
     main_page.click_on_the_about_link('Сила в людях')

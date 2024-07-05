@@ -1,6 +1,7 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 class BasePage:
 
     def __init__(self, driver):
@@ -13,6 +14,9 @@ class BasePage:
 
     def find_element_in_children(self, locator, element):
         return element.find_element(*locator)
+
+    def find_elements_in_children(self, locator, element):
+        return element.find_elements(*locator)
 
     def find_element(self, locator,time=10):
         return WebDriverWait(self.driver,time).until(EC.presence_of_element_located(locator),
@@ -39,5 +43,14 @@ class BasePage:
     def clic_element(self, element):
         self.driver.execute_script("arguments[0].click();", element)
 
+    def scroll_page(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
     def go_to_site(self):
         return self.driver.get(self.base_url)
+    
+    def get_title(self):
+        return self.driver.title
+    
+    def refresh(self):
+        self.driver.refresh()
