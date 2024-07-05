@@ -1,5 +1,6 @@
 from tests.BaseApp import BasePage
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException 
 
 class SbisSeacrhLocators:
     LOCATOR_FIELD = (By.CSS_SELECTOR, "div.tensor_ru-Index__block4-content")
@@ -7,13 +8,26 @@ class SbisSeacrhLocators:
     LOCATOR_LABEL_BUTTON = (By.CSS_SELECTOR, "a.sbisru-Contacts__logo-tensor")
     LOCATOR_ABOUT_LINK = (By.CLASS_NAME, "tensor_ru-link")  
     LOCATOR_IMG_CONTENT = (By.CSS_SELECTOR, "img.tensor_ru-About__block3-image")
-    
+    LOCATOR_CONTAINER = (By.CLASS_NAME, "tensor_ru-container")
+    LOCATOR_HEADING = (By.CLASS_NAME, "tensor_ru-header-h2")
 
 
 class SearchHelper(BasePage):
 
-    def get_img(self,):
-        img_elements = self.find_elements(SbisSeacrhLocators.LOCATOR_IMG_CONTENT, time=4)
+    def get_element_by_h_in_container(self, heading_text):
+        elements = self.find_elements(SbisSeacrhLocators.LOCATOR_CONTAINER, time=2)
+        for element in elements:
+            try: 
+                h = element.find_element(*SbisSeacrhLocators.LOCATOR_HEADING)
+                if heading_text in h.text:
+                    return element
+            except NoSuchElementException: 
+                pass
+
+
+
+    def get_img(self, element):
+        img_elements = element.find_elements(By.TAG_NAME, "img")
         return img_elements
 
     def is_size_img_equal(self,img_elements):
@@ -28,7 +42,6 @@ class SearchHelper(BasePage):
         for element in elements:
             if string in element.text:
                 about_link = element.find_element(*SbisSeacrhLocators.LOCATOR_ABOUT_LINK)
-                print(about_link.text)
                 self.clic_element(about_link)
                 break
         return True
