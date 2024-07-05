@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.trunk
+.env
+.vscode/
+.coverage
+result.json
+.pytest_cache
+temp/
+chromedriver.exe
