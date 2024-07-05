@@ -18,7 +18,7 @@ class SearchHelper(BasePage):
         elements = self.find_elements(SbisSeacrhLocators.LOCATOR_CONTAINER, time=2)
         for element in elements:
             try: 
-                h = element.find_element(*SbisSeacrhLocators.LOCATOR_HEADING)
+                h = self.find_element_in_children(SbisSeacrhLocators.LOCATOR_HEADING, element)
                 if heading_text in h.text:
                     return element
             except NoSuchElementException: 
@@ -41,7 +41,7 @@ class SearchHelper(BasePage):
         elements = self.find_elements(SbisSeacrhLocators.LOCATOR_FIELD, time=2)
         for element in elements:
             if string in element.text:
-                about_link = element.find_element(*SbisSeacrhLocators.LOCATOR_ABOUT_LINK)
+                about_link =  self.find_element_in_children(SbisSeacrhLocators.LOCATOR_ABOUT_LINK, element)
                 self.clic_element(about_link)
                 break
         return True
@@ -54,12 +54,13 @@ class SearchHelper(BasePage):
         elements = self.find_elements(SbisSeacrhLocators.LOCATOR_CONTACTS_BUTTON, time=2)
         for element in elements:
             if "Контакты" in element.text:
-                element.click()
+                self.clic_element(element)
                 break
         return True
     
     def click_on_the_label_button(self):
-        self.find_and_clic_element(SbisSeacrhLocators.LOCATOR_LABEL_BUTTON, time=2).click()
+        element = self.find_and_clic_element(SbisSeacrhLocators.LOCATOR_LABEL_BUTTON, time=2)
+        self.clic_element(element)
         self.switch_to_new_windows()
 
         return True

@@ -10,7 +10,9 @@ class BasePage:
     def find_and_clic_element(self, locator,time=10):
         return WebDriverWait(self.driver,time).until(EC.element_to_be_clickable(locator),
                                                 message=f"Can't find element by locator {locator}")
-        
+
+    def find_element_in_children(self, locator, element):
+        return element.find_element(*locator)
 
     def find_element(self, locator,time=10):
         return WebDriverWait(self.driver,time).until(EC.presence_of_element_located(locator),
