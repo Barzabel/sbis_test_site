@@ -115,12 +115,9 @@ class SearchHelper(BasePage):
     def click_on_the_link_footer(self, text_link):
         self.click_on_the_link(SbisSeacrhLocators.LOCATOR_FOOTER_LINKS, text_link, SbisSeacrhLocators.LOCATOR_A )
 
-
     def check_url(self, url):
         return self.is_url_contains(url)
 
-
-    
     def click_on_the_label_button(self):
         element = self.find_and_clic_element(SbisSeacrhLocators.LOCATOR_LABEL_BUTTON, time=2)
         self.clic_element(element)
