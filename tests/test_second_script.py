@@ -1,8 +1,10 @@
 from tests.SbisPage import SearchHelper
 
+
 OUR_REGION = "Нижегородская обл."
 NEW_REGION = "Камчатский край"
 REGION_CODE_IN_URL = "41"
+START_URL = "https://sbis.ru/"
 
 def test_sbis_second_script(browser):
     """
@@ -17,8 +19,8 @@ def test_sbis_second_script(browser):
         - url и title содержат информацию выбранного региона.
     """
     main_page = SearchHelper(browser)
-    main_page.go_to_site()
-    main_page.click_on_the_link("Контакты")
+    main_page.go_to_site(START_URL)
+    main_page.click_on_the_link_heder("Контакты")
     assert main_page.check_our_region(OUR_REGION)
     assert main_page.check_partners_exist()
     main_page.click_on_the_region_link()

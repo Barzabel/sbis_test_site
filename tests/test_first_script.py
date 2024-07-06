@@ -1,5 +1,6 @@
 from tests.SbisPage import SearchHelper
 
+START_URL = "https://sbis.ru/"
 
 def test_sbis_first_script(browser):
     """ 1) Перейти на https://sbis.ru/ в раздел "Контакты"
@@ -11,8 +12,8 @@ def test_sbis_first_script(browser):
         6) Находим раздел Работаем и проверяем, что у всех фотографии хронологии
         одинаковые высота (height) и ширина (width)"""
     main_page = SearchHelper(browser)
-    main_page.go_to_site()
-    main_page.click_on_the_link("Контакты")
+    main_page.go_to_site(START_URL)
+    main_page.click_on_the_link_heder("Контакты")
     main_page.click_on_the_label_button()
     assert main_page.check_string('Сила в людях')
     main_page.click_on_the_about_link('Сила в людях')

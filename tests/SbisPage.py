@@ -1,10 +1,13 @@
+import os
 from tests.BaseApp import BasePage
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException 
 import time
 
 
+
 class SbisSeacrhLocators:
+    # first script
     LOCATOR_FIELD = (By.CSS_SELECTOR, "div.tensor_ru-Index__block4-content")                                     
     LOCATOR_LABEL_BUTTON = (By.CSS_SELECTOR, "a.sbisru-Contacts__logo-tensor")
     LOCATOR_ABOUT_LINK = (By.CLASS_NAME, "tensor_ru-link")  
@@ -19,8 +22,13 @@ class SbisSeacrhLocators:
     LOCATOR_REGION_LINK = (By.CSS_SELECTOR, "span.sbis_ru-Region-Chooser__text")
     LOCATOR_CONTAINER_SBIS = (By.CLASS_NAME, "controls-ListViewV__itemsContainer")
     LOCATOR_HEDER_LINKS  = (By.CSS_SELECTOR, "li.sbisru-Header__menu-item")
+    LOCATOR_FOOTER_LINKS = (By.CSS_SELECTOR, "li.sbisru-Footer__list-item")
     LOCATOR_A = (By.TAG_NAME, "a")
     LOCATOR_SPAN = (By.TAG_NAME, "span")
+
+    # third script
+    LOCATOR_DOWNLOAD_BLOCK = (By.CSS_SELECTOR, "div.sbis_ru-DownloadNew-block")
+    LOCATOR_DOWNLOAD_ITEM = (By.CSS_SELECTOR, "div.sbis_ru-DownloadNew-loadLink")
 
 
 
@@ -45,10 +53,10 @@ class SearchHelper(BasePage):
         return all(x == size_imgs[0] for x in size_imgs)
 
     def check_string(self, string):
-        return self.is_text_in_element(SbisSeacrhLocators.LOCATOR_FIELD, string, time=2)
+        return self.is_text_in_element_by_locator(SbisSeacrhLocators.LOCATOR_FIELD, string, time=2)
     
     def check_our_region(self, region):
-        return self.is_text_in_element(SbisSeacrhLocators.LOCATOR_REGION_LINK, region, time=2)
+        return self.is_text_in_element_by_locator(SbisSeacrhLocators.LOCATOR_REGION_LINK, region, time=2)
 
     def check_partners_exist(self):
         elements = self.find_elements(SbisSeacrhLocators.LOCATOR_CONTAINER_SBIS, time=2)
@@ -101,18 +109,17 @@ class SearchHelper(BasePage):
                 break
         return True
 
+    def click_on_the_link_heder(self, text_link):
+        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_HEDER_LINKS, text_link, SbisSeacrhLocators.LOCATOR_A )
+
+    def click_on_the_link_footer(self, text_link):
+        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_FOOTER_LINKS, text_link, SbisSeacrhLocators.LOCATOR_A )
+
+
     def check_url(self, url):
         return self.is_url_contains(url)
 
-    def click_on_the_link(self, text_link):
-        elements = self.find_elements(SbisSeacrhLocators.LOCATOR_HEDER_LINKS, time=2)
-        
-        for element in elements:
-            a = self.find_element_in_children(SbisSeacrhLocators.LOCATOR_A, element)
-            if text_link in element.text:
-                self.clic_element(a)
-                break
-        return True
+
     
     def click_on_the_label_button(self):
         element = self.find_and_clic_element(SbisSeacrhLocators.LOCATOR_LABEL_BUTTON, time=2)
@@ -121,4 +128,13 @@ class SearchHelper(BasePage):
 
         return True
 
+    def download(self, name):
+        element = self.find_element_with_text(SbisSeacrhLocators.LOCATOR_DOWNLOAD_BLOCK, name)
+        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_DOWNLOAD_ITEM, 'Скачать', SbisSeacrhLocators.LOCATOR_A)
+        time.sleep(6)
 
+    def is_file_downloaded(self, file_name):
+        return file_name in os.listdir(self.downloads)
+    
+    def is_file_size_equel(self, file_name, file_size):
+        return file_size == os.path.getsize(os.path.join(self.downloads, file_name))
