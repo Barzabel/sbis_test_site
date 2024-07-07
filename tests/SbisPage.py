@@ -24,6 +24,7 @@ class SbisSeacrhLocators:
     LOCATOR_CONTAINER_SBIS = (By.CLASS_NAME, "controls-ListViewV__itemsContainer")
     LOCATOR_HEDER_LINKS  = (By.CSS_SELECTOR, "li.sbisru-Header__menu-item")
     LOCATOR_FOOTER_LINKS = (By.CSS_SELECTOR, "li.sbisru-Footer__list-item")
+    LOCATOR_P = (By.TAG_NAME, "p")
     LOCATOR_A = (By.TAG_NAME, "a")
     LOCATOR_SPAN = (By.TAG_NAME, "span")
 
@@ -86,12 +87,12 @@ class SearchHelper(BasePage):
 
 
     def click_on_the_about_link(self, string):
-        elements = self.find_elements(SbisSeacrhLocators.LOCATOR_FIELD, time=2)
-        for element in elements:
-            if string in element.text:
-                link =  self.find_element_in_children(SbisSeacrhLocators.LOCATOR_ABOUT_LINK, element)
-                self.clic_element(link)
-                break
+        element = self.find_element(SbisSeacrhLocators.LOCATOR_FIELD, time=2)
+
+        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_P,
+                        string,
+                        SbisSeacrhLocators.LOCATOR_A,
+                        element)
         return True
 
     def click_on_the_region_link(self):

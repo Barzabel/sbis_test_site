@@ -16,7 +16,7 @@ def test_sbis_first_script(browser):
     main_page.click_on_the_link_heder("Контакты")
     main_page.click_on_the_label_button()
     assert main_page.check_string('Сила в людях')
-    main_page.click_on_the_about_link('Сила в людях')
+    main_page.click_on_the_about_link('Подробнее')
     assert main_page.check_url("https://tensor.ru/about")
     imgs = main_page.get_img(main_page.get_element_by_h_in_container("Работаем"))
     assert main_page.is_size_img_equal(imgs)
