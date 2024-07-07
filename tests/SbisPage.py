@@ -18,7 +18,8 @@ class SbisSeacrhLocators:
 
     # second script
     LOCATOR_PARTNER_TITLE = (By.CLASS_NAME, "sbisru-Contacts-List__name")
-    LOCATOR_POPUP_REGION_LINK = (By.CSS_SELECTOR, "li.sbis_ru-Region-Panel__item")
+    LOCATOR_POPUP_REGION_LI = (By.CSS_SELECTOR, "li.sbis_ru-Region-Panel__item")
+    LOCATOR_POPUP_REGION_UL = (By.CSS_SELECTOR, "ul.sbis_ru-Region-Panel__list-l")
     LOCATOR_REGION_LINK = (By.CSS_SELECTOR, "span.sbis_ru-Region-Chooser__text")
     LOCATOR_CONTAINER_SBIS = (By.CLASS_NAME, "controls-ListViewV__itemsContainer")
     LOCATOR_HEDER_LINKS  = (By.CSS_SELECTOR, "li.sbisru-Header__menu-item")
@@ -99,14 +100,12 @@ class SearchHelper(BasePage):
         return True
 
     def click_on_popup_region_link(self, region):
-        elements = self.find_elements(SbisSeacrhLocators.LOCATOR_POPUP_REGION_LINK, time=2)
-        for element in elements:
-            if region in element.text:
-                span = self.find_element_in_children(SbisSeacrhLocators.LOCATOR_SPAN, element)
-                self.clic_element(span)
-                time.sleep(1)   
-                self.refresh()
-                break
+        element = self.find_element(SbisSeacrhLocators.LOCATOR_POPUP_REGION_UL, time=2)
+        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_POPUP_REGION_LI,
+                               region,
+                               SbisSeacrhLocators.LOCATOR_SPAN,
+                               element)
+        self.refresh()
         return True
 
     def click_on_the_link_heder(self, text_link):
@@ -127,7 +126,10 @@ class SearchHelper(BasePage):
 
     def download(self, name):
         element = self.find_element_with_text(SbisSeacrhLocators.LOCATOR_DOWNLOAD_BLOCK, name)
-        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_DOWNLOAD_ITEM, 'Скачать', SbisSeacrhLocators.LOCATOR_A)
+        self.click_on_the_link(SbisSeacrhLocators.LOCATOR_DOWNLOAD_ITEM,
+                               'Скачать',
+                               SbisSeacrhLocators.LOCATOR_A,
+                               element)
         time.sleep(6)
 
     def is_file_downloaded(self, file_name):

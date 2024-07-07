@@ -1,5 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
 
 
 class BasePage:
@@ -15,18 +16,19 @@ class BasePage:
     def find_element_in_children(self, locator, element):
         return element.find_element(*locator)
 
-    def find_elements_in_children(self, locator, element):
+    def find_elements_in_children(self, locator, element, time_sleep=1):
+        time.sleep(time_sleep)
         return element.find_elements(*locator)
 
     def find_element(self, locator,time=10):
         return WebDriverWait(self.driver,time).until(EC.presence_of_element_located(locator),
                                                       message=f"Can't find element by locator {locator}")
 
-    def find_element_with_text(self, locator, text, time=2, element=None):
+    def find_element_with_text(self, locator, text, time=1, element=None):
         if not element:
             elements = self.find_elements(locator, time)
         else:
-            elements = self.find_elements_in_children(locator, element)
+            elements = self.find_elements_in_children(locator, element, time_sleep=time)
         xpath = f'.//*[contains(text(), "{text}")]'
 
         for element_ in elements:
@@ -64,7 +66,6 @@ class BasePage:
         element_ = self.find_element_with_text(locator, text_link, time=2, element=element)
         link = self.find_element_in_children(tag_locator, element_)
         if link:
-            print(link.text)
             self.clic_element(link)
 
 
@@ -78,6 +79,8 @@ class BasePage:
         return self.driver.title
     
     def refresh(self):
+        time.sleep(2)   
+
         self.driver.refresh()
 
     # def download_file(self, ):
